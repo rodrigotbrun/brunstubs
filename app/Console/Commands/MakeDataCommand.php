@@ -110,6 +110,8 @@ class MakeDataCommand extends Command
                     ])
                     ->generate();
         }
+
+        $this->info('Generated Data classes');
     }
 
     private function getRuleTypes(\stdClass $field): array

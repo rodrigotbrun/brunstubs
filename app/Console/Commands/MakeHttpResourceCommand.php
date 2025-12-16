@@ -69,6 +69,8 @@ class MakeHttpResourceCommand extends Command
                 ])
                 ->generate();
         }
+
+        $this->info('Generated Json Resource class');
     }
 
 }

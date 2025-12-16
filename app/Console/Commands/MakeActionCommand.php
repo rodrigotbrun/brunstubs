@@ -82,6 +82,8 @@ class MakeActionCommand extends Command
                     ->generate();
         }
 
+        $this->info('Generated Action classes');
+
     }
 
 }

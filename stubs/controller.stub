@@ -1,0 +1,86 @@
+<?php
+
+namespace {{ NAMESPACE }};
+
+use Lorisleiva\Actions\Concerns\AsAction;
+use App\Models\{{ MODEL }};
+use App\Actions\{{ MODEL }}\Create{{ MODEL }};
+use App\Actions\{{ MODEL }}\Delete{{ MODEL }};
+use App\Actions\{{ MODEL }}\Update{{ MODEL }};
+use App\Http\Resources\{{ MODEL }}Resource;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
+
+class {{ CLASS }} extends Controller
+{
+
+    public function index(Request $request)
+    {
+        \Gate::authorize('view-any', {{ MODEL }}::class);
+
+        $data = QueryBuilder::for({{ MODEL }}::class)
+            ->orderBy('created_at', 'desc')
+            ->paginate(50);
+
+        $data = $data->filter(fn($item) => $request->user()->can('view', $item));
+
+        ${{ MODEL_PLURAL_VARIABLE }} = {{ MODEL }}Resource::collection($data);
+
+        if ($request->wantsJson()) {
+            return ${{ MODEL_PLURAL_VARIABLE }};
+        }
+
+        return Inertia::render('dashboard/{{ MODEL_PLURAL_VARIABLE }}/index')
+            ->with('active_context', '{{ MODEL_PLURAL_VARIABLE }}')
+            ->with('can', Inertia::merge([
+                'create-{{ MODEL_PLURAL_VARIABLE }}' => $request->user()->can('create', {{ MODEL }}::class),
+            ]))
+            ->with('{{ MODEL_PLURAL_VARIABLE }}', ${{ MODEL_PLURAL_VARIABLE }});
+    }
+
+    public function show(Request $request, {{ MODEL }} ${{ MODEL_VARIABLE }})
+    {
+        \Gate::authorize('view', ${{ MODEL_VARIABLE }});
+
+        $data = {{ MODEL }}Resource::make(${{ MODEL_VARIABLE }});
+
+        if ($request->wantsJson()) {
+            return $data;
+        }
+
+        return Inertia::render('dashboard/{{ MODEL_PLURAL_VARIABLE }}/show')
+            ->with('active_context', '{{ MODEL_PLURAL_VARIABLE }}')
+            ->with('{{ MODEL_VARIABLE }}', $data);
+    }
+
+    public function store(Request $request)
+    {
+        ${{ MODEL_VARIABLE }} = Create{{ MODEL }}::run(
+            input: $request->input(),
+        );
+
+        return back()->with('success', __('Sucesso'));
+    }
+
+    public function update(Request $request, {{ MODEL }} ${{ MODEL_VARIABLE }})
+    {
+        ${{ MODEL_VARIABLE }} = Update{{ MODEL }}::run(
+            {{ MODEL_VARIABLE }}: ${{ MODEL_VARIABLE }},
+            input: $request->input(),
+        );
+
+        return back()->with('success', __('Atualizado com sucesso'));
+    }
+
+    public function destroy(Request $request, {{ MODEL }} ${{ MODEL_VARIABLE }})
+    {
+        Delete{{ MODEL }}::run(
+            {{ MODEL_VARIABLE }}: ${{ MODEL_VARIABLE }}
+        );
+
+        return back()->with('success', __('Registro deletado com sucesso'));
+    }
+}
