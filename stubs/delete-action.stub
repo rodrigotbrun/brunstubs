@@ -1,0 +1,19 @@
+<?php
+
+namespace {{ NAMESPACE }};
+
+use Lorisleiva\Actions\Concerns\AsAction;
+use App\Models\{{ MODEL }};
+
+class {{ CLASS }}
+{
+    use AsAction;
+
+    public function handle({{ MODEL }} ${{ MODEL_VARIABLE }}): bool
+    {
+        \Gate::authorize('delete', ${{ MODEL_VARIABLE }});
+
+        return ${{ MODEL_VARIABLE }}->delete();
+    }
+
+}

@@ -1,0 +1,24 @@
+<?php
+
+namespace {{ NAMESPACE }};
+
+use Lorisleiva\Actions\Concerns\AsAction;
+use App\Models\{{ MODEL }};
+use App\Data\{{ MODEL }}\{{ DATA_CLASS }};
+
+class {{ CLASS }}
+{
+    use AsAction;
+
+    public function handle({{ MODEL }} ${{ MODEL_VARIABLE }}, array $input): bool
+    {
+        \Gate::authorize('update', ${{ MODEL_VARIABLE }});
+
+        $data = {{ DATA_CLASS }}::validateAndCreate($input);
+
+        ${{ MODEL_VARIABLE }}->fill($data->toArray());
+
+        return ${{ MODEL_VARIABLE }}->save();
+    }
+
+}

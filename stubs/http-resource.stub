@@ -1,0 +1,41 @@
+<?php
+
+namespace {{ NAMESPACE }};
+
+use App\Models\{{ MODEL }};
+use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
+use OpenApi\Attributes as OA;
+
+#[OA\Schema(
+    schema: '{{ MODEL }}',
+    properties: [
+        new OA\Property(property: 'id', title: 'ID', type: 'string', readOnly: true, nullable: false),
+{{ OPEN_API_ANNOTATIONS }}
+        new OA\Property(property: 'can', properties: [
+            new OA\Property(property: 'update', type: 'boolean', readOnly: true, nullable: false),
+            new OA\Property(property: 'delete', type: 'boolean', readOnly: true, nullable: false),
+        ], readOnly: true, nullable: false),
+        new OA\Property(property: 'created_at', type: 'string', readOnly: true, nullable: false),
+        new OA\Property(property: 'updated_at', type: 'string', readOnly: true, nullable: false),
+    ]
+)]
+/** @mixin {{ MODEL }} */
+class {{ CLASS }} extends JsonResource
+{
+
+    public function toArray(Request $request): array
+    {
+        return [
+            'id' => $this->prefixed_id,
+{{ RESOURCE_FIELDS }}
+            'can' => [
+                'update' => auth()->user()->can('update', $this->resource),
+                'delete' => auth()->user()->can('delete', $this->resource),
+            ],
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+        ];
+    }
+
+}

@@ -1,0 +1,22 @@
+<?php
+
+namespace {{ NAMESPACE }};
+
+use Lorisleiva\Actions\Concerns\AsAction;
+use App\Models\{{ MODEL }};
+use App\Data\{{ MODEL }}\{{ DATA_CLASS }};
+
+class {{ CLASS }}
+{
+    use AsAction;
+
+    public function handle(array $input): {{ MODEL }}
+    {
+        \Gate::authorize('create', {{ MODEL }}::class);
+
+        $data = {{ DATA_CLASS }}::validateAndCreate($input);
+
+        return {{ MODEL }}::create($data->toArray());
+    }
+
+}
