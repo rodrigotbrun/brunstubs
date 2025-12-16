@@ -4,7 +4,7 @@ I have some coding style that I like to do for my side projects.
 
 This is in a very early stage, and there's a lot of room for improvement, and a lot of architecture pattern I will include in this.
 
-This repo, is a [Laravel Zero](https://laravel-zero.com/) implementation, of cool stubs, that follows my architecture. And to facilitate usage amont all my projects.
+This repo, is a [Laravel Zero](https://laravel-zero.com/) implementation, of cool stubs, that follows my architecture. And to facilitate usage among all my projects.
 
 The packages that I usually use, and this stubs are following the styles are:
 
