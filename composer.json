@@ -50,5 +50,5 @@
     },
     "minimum-stability": "stable",
     "prefer-stable": true,
-    "bin": ["trix-cli"]
+    "bin": ["brunstubs"]
 }
