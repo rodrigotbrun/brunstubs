@@ -17,4 +17,4 @@ Data classes and Actions for handling data and executing tasks.
 The l5-swagger is to annotate my Laravel HTTP Resources, and use [Orval](https://orval.dev/) to generate TypeScript stuff. (as well as eventually a swagger spec of course).
 And for routing provider in JS, I use [Laravel Wayfinder](laravel/wayfinder).
 
-I don't have any pattern for contributing to this project, but feel free to fork and open PR's or suggest new stuff. I pretend to commit to this side project when possible.
+I don't have any pattern for contributing to this project yet!!, but feel free to fork and open PR's or suggest new stuff. I pretend to commit to this side project when possible.
