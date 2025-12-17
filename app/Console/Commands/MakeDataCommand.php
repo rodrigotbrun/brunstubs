@@ -23,7 +23,12 @@ class MakeDataCommand extends Command
         $table = $this->option('table') ?: Str::snake(Str::pluralStudly($this->argument('model')));
 
         $namespace = 'App\\Data\\' . $model;
-        $baseDir = __DIR__ . '/../../../stubs/';
+
+        if(\Phar::running()) {
+            $baseDir = getcwd() . '/stubs/';
+        }else{
+            $baseDir = base_path('stubs') / '/';
+        }
 
         $to = getcwd() . '/app/Data/' . $model . '/';
 
